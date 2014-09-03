@@ -36,5 +36,5 @@ build/
 
 # Ignoring workspace.xml and tasks.xml as recommended in RubyMine docummentation:
 # http://devnet.jetbrains.com/docs/DOC-1192
-*/workspace.xml
-*/tasks.xml
+*/.idea/workspace.xml
+*/.idea/tasks.xml
