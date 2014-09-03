@@ -19,8 +19,13 @@ describe 'Hierarchy Redirection' do
     expect(@nuevoObjeto.prop).to eq(600)
   end
 
+  it 'should not let prototypes share states' do
+    expect{@nuevoObjetoPrototipado.prop}.to raise_error(NoMethodError)
+  end
+
   it 'should let edit properties from every instance independently' do
-    #TODO: IMPLEMENT
+    @nuevoObjetoPrototipado.set_property(:prop, 1999)
+    expect(@nuevoObjetoPrototipado.prop).to eq(1999)
   end
 
   it 'should set a new prototype' do
