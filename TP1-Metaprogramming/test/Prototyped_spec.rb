@@ -9,6 +9,20 @@ describe 'Hierarchy Redirection' do
     @nuevoObjetoPrototipado = TP::PrototypedObject.new
   end
 
+  it 'should add new properties' do
+    @nuevoObjeto.set_property(:prop, 500)
+    expect(@nuevoObjeto.prop).to eq(500)
+  end
+
+  it 'should edit properties correctly' do
+    @nuevoObjeto.prop = 600
+    expect(@nuevoObjeto.prop).to eq(600)
+  end
+
+  it 'should let edit properties from every instance independently' do
+    #TODO: IMPLEMENT
+  end
+
   it 'should set a new prototype' do
 
     @nuevoObjetoPrototipado.set_prototype(@nuevoObjeto)
