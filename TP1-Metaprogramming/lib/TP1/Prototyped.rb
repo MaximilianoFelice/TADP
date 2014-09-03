@@ -12,17 +12,14 @@ module TP
     end
 
     def set_prototype(object)
-      self.extend RedefineMethodMissing
+      self.singleton_class.class_eval{ attr_accessor :prototype }
+      self.prototype = object
+      self.define_singleton_method(:method_missing, lambda{
+                                  |name, *args, &block|
+                                  self.prototype.send name, *args, &block })
       self.prototype = object
     end
 
-  end
-
-  module RedefineMethodMissing
-    attr_accessor :prototype
-    def method_missing(name, *args, &block)
-      self.prototype.send name, *args, &block
-    end
   end
 
 end
