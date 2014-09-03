@@ -4,7 +4,7 @@ module TP
   module Prototyped
 
     def set_method(selector, block)
-
+      self.define_singleton_method(selector, block)
     end
 
     def set_property(selector, value)
@@ -15,7 +15,7 @@ module TP
     def set_prototype(object)
       #¿Sera necesario editar las propiedades?
       self.set_property(:prototype, object)
-      self.define_singleton_method(:method_missing, lambda{
+      self.set_method(:method_missing, lambda{
                                   |name, *args, &block|
                                   self.prototype.send name, *args, &block })
       self.prototype = object
