@@ -18,7 +18,7 @@ module TP
 
     def set_property(selector, value)
       self.singleton_module.module_eval{ attr_accessor selector }
-      self.send("#{selector}=", value)
+      self.instance_variable_set("@#{selector}", value)
     end
 
     def set_prototype(object)

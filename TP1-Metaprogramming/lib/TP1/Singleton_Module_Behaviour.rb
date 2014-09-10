@@ -21,8 +21,7 @@ module TP
 
     include Singleton_Module_Accessors
 
-    # TODO: Buscar una forma de no repetir codigo
-    # If the module is included by a class, it defines behaviour for every new instance
+    # If the module is included by a class, it defines behaviour for every new instance AND for the class itself
     def self.included(including_class)
       including_class.singleton_class.include TP::Singleton_Module_Accessors
     end
