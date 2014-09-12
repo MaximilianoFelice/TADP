@@ -8,6 +8,7 @@ describe '4.1 Programatic Prototypes' do
     @guerrero = TP::PrototypedObject.new
     @espadachin = TP::PrototypedObject.new
     @otro_guerrero
+    @a = 50
   end
 
   it 'should set a new warrior' do
@@ -42,16 +43,32 @@ describe '4.1 Programatic Prototypes' do
       #should be  30    +       30             *       0.5    = 45
     })
 
-    #expect(@espadachin.potencial_ofensivo).to eq(45)
+    expect(@guerrero.respond_to?(:atacar_a)).to eq(true)
+    expect(@espadachin.potencial_ofensivo).to eq(45)
 
     @otro_guerrero = @guerrero.clone
     expect(@otro_guerrero.potencial_defensivo).to eq(10)
     expect(@otro_guerrero.energia).to eq(100)
-    #@guerrero.atacar_a @otro_guerrero
-    #expect(@otro_guerrero.energia).to eq(80)
+    @guerrero.atacar_a @otro_guerrero
+    expect(@otro_guerrero.energia).to eq(80)
 
     @espadachin.atacar_a(@otro_guerrero)
-    #expect(@otro_guerrero.energia).to eq(75)
+    expect(@otro_guerrero.energia).to eq(45)
+  end
+
+  it 'prototyped objects can find behaviour in other instances' do
+    @guerrero.set_method(:sanar, proc {
+      self.energia = self.energia + 10
+    })
+    @espadachin.sanar
+    expect(@espadachin.energia).to eq(110)
+  end
+
+  it 'should let prototyped objects redefine behaviour' do
+    @guerrero.set_method(:potencial_ofensivo, proc {
+      1000
+    })
+    expect(@espadachin.potencial_ofensivo).to eq(45)
   end
 
 end
