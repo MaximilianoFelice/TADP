@@ -65,5 +65,21 @@ describe 'Hierarchy Redirection' do
 
   end
 
+  it 'should let share prototyped behaviour between instances of different classes' do
+
+    @anObject = Object.new
+    @anObject.extend TP::Prototyped
+
+    @aClass = Class.new
+    @aClass.extend TP::Prototyped
+
+    @anObject.set_method(:metodin, lambda{70})
+
+    @aClass.set_prototype(@anObject)
+
+    expect(@aClass.metodin).to eq(70)
+
+  end
+
 end
 
