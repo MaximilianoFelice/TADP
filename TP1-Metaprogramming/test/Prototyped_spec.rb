@@ -32,7 +32,7 @@ describe 'Hierarchy Redirection' do
 
     @nuevoObjetoPrototipado.set_prototype(@nuevoObjeto)
 
-    @nuevoObjeto.define_singleton_method(:devolver, lambda{50})
+    @nuevoObjeto.set_method(:devolver, lambda{50})
 
     expect(@nuevoObjetoPrototipado.devolver).to eq(50)
 

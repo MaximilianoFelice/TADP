@@ -23,11 +23,7 @@ module TP
 
     def set_prototype(object)
       self.set_property(:prototype, object)
-      self.set_method(:method_missing, lambda{
-                                  |name, *args, &block|
-                                  # TODO: Encontrar un workaround. Obtener el metodo de prototype y luego bindearlo.
-                                  self.prototype.send name, *args, &block })
-      self.prototype = object
+      self.singleton_module.singleton_class.include self.prototype.singleton_module
     end
 
   end
