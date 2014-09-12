@@ -38,6 +38,24 @@ describe 'Hierarchy Redirection' do
 
   end
 
+  it 'Should let Singleton Modules find behaviour' do
+
+    @previouslyProto = TP::PrototypedObject.new
+    @newObject = TP::PrototypedObject.new
+    @latelyProto = TP::PrototypedObject.new
+
+    @previouslyProto.set_prototype(@newObject)
+
+    @newObject.set_method(:a, lambda{50})
+    expect(@newObject.singleton_module.method_defined?(:a)).to eq(true)
+
+    @latelyProto.set_prototype(@newObject)
+
+    expect(@previouslyProto.a).to eq(50)
+    expect(@latelyProto.a).to eq(50)
+
+  end
+
   it 'should redefine previous behaviour' do
 
     @nuevoObjetoPrototipado.define_singleton_method(:devolver, lambda{180})

@@ -13,11 +13,11 @@ module TP
     end
 
     def set_method(selector, block)
-      self.singleton_module.send(:define_method, selector, block)
+      self.define_singleton_module_method(selector, block)
     end
 
     def set_property(selector, value)
-      self.singleton_module.module_eval{ attr_accessor selector }
+      self.instance_module_variable_define(selector)
       self.instance_variable_set("@#{selector}", value)
     end
 

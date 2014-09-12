@@ -5,8 +5,7 @@ module TP
     attr_accessor :singleton_module
 
     def method_missing(method, *args, &block)
-
-      if (singleton_module.method_defined?(method))
+      if (@singleton_module.method_defined?(method))
         method_to_execute = @singleton_module.instance_method(method)
         method_to_execute.bind(self).call(*args, &block)
       else
@@ -16,14 +15,19 @@ module TP
     end
 
     def singleton_module
-
       if !@singleton_module then
         @singleton_module = Module.new
         self.extend @singleton_module
       end
-
       @singleton_module
+    end
 
+    def define_singleton_module_method(selector, block)
+      self.singleton_module.send(:define_method, selector, block)
+    end
+
+    def instance_module_variable_define(selector)
+      self.singleton_module.module_eval{ attr_accessor selector }
     end
 
   end
