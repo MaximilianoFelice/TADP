@@ -38,7 +38,6 @@ describe '4.1 Programatic Prototypes' do
     @espadachin.set_property(:potencial_ofensivo, 30)
 
     @espadachin.set_method(:potencial_ofensivo, proc {
-      raise_error "Me preguntaron mi potencial ofensivo :("
       @potencial_ofensivo + self.potencial_espada * self.habilidad
       #should be  30    +       30             *       0.5    = 45
     })

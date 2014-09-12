@@ -23,7 +23,7 @@ module TP
 
     def set_prototype(object)
       self.set_property(:prototype, object)
-      self.singleton_module.singleton_class.include self.prototype.singleton_module
+      self.singleton_module.include self.prototype.singleton_module
     end
 
   end

@@ -7,8 +7,7 @@ module TP
     def method_missing(method, *args, &block)
 
       if (singleton_module.method_defined?(method))
-        raise "Encontre el comportamiento!!!"
-        method_to_execute = singleton_module.instance_method(method)
+        method_to_execute = @singleton_module.instance_method(method)
         method_to_execute.bind(self).call(*args, &block)
       else
         super
