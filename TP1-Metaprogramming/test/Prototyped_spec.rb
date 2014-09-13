@@ -81,5 +81,48 @@ describe 'Hierarchy Redirection' do
 
   end
 
+  it 'should prototyped find methods with super' do
+    @anObject = Object.new
+    @anObject.extend TP::Prototyped
+
+    @aClass = Class.new
+    @aClass.extend TP::Prototyped
+
+
+    @anObject.set_property(:times, 0)
+    @aClass.set_property(:times, 0)
+
+    @anObject.set_method(:metodin, proc{if(@times == 2) then raise "ERRR" end
+                                        70})
+
+    @aClass.set_method(:metodin, proc{@times += 1
+      #if(@times == 2) then raise "ERRR" end
+      "el valor es #{super()}"})
+
+    @aClass.set_prototype(@anObject)
+
+    #expect(@anObject.metodin).to eq(70)
+    expect(@aClass.metodin).to eq("el valor es 70")
+    #expect(@anObject.times).to eq(1)
+    #expect(@aClass.times).to eq(1)
+  end
+
+  it 'should let use methods independently' do
+    @anObject = Object.new
+    @anObject.extend TP::Prototyped
+
+    @aClass = Class.new
+    @aClass.extend TP::Prototyped
+
+    @anObject.set_prototype(@aClass)
+
+    @anObject.set_method(:aMessage, proc{"Some message which says: #{self.anotherMessage}"})
+
+    @aClass.set_method(:anotherMessage, proc{"I'm awesome"})
+
+    expect(@anObject.aMessage).to eq("Some message which says: I'm awesome")
+
+  end
+
 end
 
