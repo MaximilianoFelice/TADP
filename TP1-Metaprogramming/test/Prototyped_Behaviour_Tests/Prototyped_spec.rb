@@ -72,15 +72,17 @@ describe 'Hierarchy Redirection' do
     @aClass = Class.new
     @aClass.extend TP::Prototyped
 
+    @aClass.set_prototype(@anObject)
+
     @anObject.set_method(:metodin, lambda{70})
 
-    @aClass.set_prototype(@anObject)
 
     expect(@aClass.metodin).to eq(70)
 
   end
 
   it "should let share prototyped behaviour between prototyped instances" do
+
     @anObject = Object.new
     @anObject.extend TP::Prototyped
 
@@ -100,6 +102,42 @@ describe 'Hierarchy Redirection' do
 
     expect(@aModule.metodin).to eq(70)
     expect(@aModule.otro_metodo).to eq("funciono")
+  end
+
+  it 'should prototyped find methods with super' do
+    @anObject = Object.new
+    @anObject.extend TP::Prototyped
+
+    @aClass = Class.new
+    @aClass.extend TP::Prototyped
+
+    @anObject.set_method(:metodin, proc{70})
+
+    @aClass.set_method(:metodin, proc{"el valor es #{super()}"})
+
+    @aClass.set_prototype(@anObject)
+
+    expect(@aClass.metodin).to eq("el valor es 70")
+    expect(@anObject.metodin).to eq(70)
+    expect(@aClass.metodin).to eq("el valor es 70")
+  end
+
+  it 'should let use methods independently' do
+    @anObject = Object.new
+    @anObject.extend TP::Prototyped
+
+    @aClass = Class.new
+    @aClass.extend TP::Prototyped
+
+    @anObject.set_prototype(@aClass)
+
+    @anObject.set_method(:aMessage, proc{"Some message which says: #{self.anotherMessage}"})
+
+    @aClass.set_method(:anotherMessage, proc{"I'm awesome"})
+
+    expect(@anObject.aMessage).to eq("Some message which says: I'm awesome")
+
+# >>>>>>> UsingSuper:TP1-Metaprogramming/test/Prototyped_spec.rb
   end
 
 end
