@@ -137,7 +137,6 @@ describe 'Hierarchy Redirection' do
 
     expect(@anObject.aMessage).to eq("Some message which says: I'm awesome")
 
-# >>>>>>> UsingSuper:TP1-Metaprogramming/test/Prototyped_spec.rb
   end
 
 end

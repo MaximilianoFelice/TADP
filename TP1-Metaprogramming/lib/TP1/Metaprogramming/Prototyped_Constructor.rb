@@ -5,19 +5,20 @@ module TP
 
   module PrototypedConstructor
 
-    attr_accessor :constructor, :instance
-
-    def method_missing
-      p "hola"
-    end
+    attr_accessor :constructor, :prototype
 
     def initialize(instance, block)
-      @instance = instance
+      @prototype = instance
       @constructor = block
     end
 
     def new(*args)
-      @constructor.yield(@instance, *args)
+      new_object = Object.new
+      new_object.extend Prototyped
+
+      new_object.set_prototype(@prototype)
+      @constructor.call(new_object, *args)
+      return new_object
     end
 
   end
