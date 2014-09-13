@@ -3,12 +3,16 @@ require "TP1/Metaprogramming"
 
 describe 'Let Constructors build Prototypes' do
 
-  it 'should set a new constructor' do
+  before(:all) do
+    @guerrero = TP::PrototypedObject.new
+    @guerrero.set_property(:energia, 0)
+    @guerrero.set_property(:potencial_defensivo, 0)
+    @guerrero.set_property(:potencial_ofensivo, 0)
+  end
 
-    guerrero = Object.new
-    guerrero.extend TP::Prototyped
+  it 'should set a new constructor based on a prototype' do
 
-    Guerrero = TP::ProtoConstructor.new(guerrero, proc {
+    Guerrero = TP::ProtoConstructor.new(@guerrero, proc {
         |guerrero_nuevo, una_energia, un_potencial_ofensivo, un_potencial_defensivo|
       guerrero_nuevo.energia = una_energia
       guerrero_nuevo.potencial_ofensivo = un_potencial_ofensivo
