@@ -74,7 +74,7 @@ describe 'Hierarchy Redirection' do
     @aClass.extend TP::Prototyped
 
     @aClass.set_prototype(@anObject)
-    
+
     @anObject.set_method(:metodin, lambda{70})
 
 
@@ -93,20 +93,15 @@ describe 'Hierarchy Redirection' do
     @anObject.set_property(:times, 0)
     @aClass.set_property(:times, 0)
 
-    @anObject.set_method(:metodin, proc{#if(@times == 2) then raise "ERRR" end
-                                        70})
+    @anObject.set_method(:metodin, proc{70})
 
-    @aClass.set_method(:metodin, proc{@times += 1
-      #if(@times == 2) then raise "ERRR" end
-      "el valor es #{super()}"})
+    @aClass.set_method(:metodin, proc{"el valor es #{super()}"})
 
     @aClass.set_prototype(@anObject)
 
-    #expect(@anObject.metodin).to eq(70)
     expect(@aClass.metodin).to eq("el valor es 70")
+    expect(@anObject.metodin).to eq(70)
     expect(@aClass.metodin).to eq("el valor es 70")
-    #expect(@anObject.times).to eq(1)
-    #expect(@aClass.times).to eq(1)
   end
 
   it 'should let use methods independently' do
