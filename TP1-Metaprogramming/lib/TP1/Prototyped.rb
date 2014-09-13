@@ -18,7 +18,7 @@ module TP
 
     def set_property(selector, value)
       self.instance_module_variable_define(selector)
-      self.instance_variable_set("@#{selector}", value)
+      self.instance_module_variable_set(selector, value)
     end
 
     def set_prototype(object)

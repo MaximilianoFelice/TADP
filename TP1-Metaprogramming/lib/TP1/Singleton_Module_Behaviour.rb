@@ -20,6 +20,13 @@ module TP
       self.singleton_module.module_eval{ attr_accessor selector }
     end
 
+    def instance_module_variable_set(selector, value)
+      self.instance_variable_set("@#{selector}", value)
+    end
+
+    def instance_module_variable_get(selector)
+      self.instance_variable_get("@#{selector}")
+    end
   end
 
   module Singleton_Module

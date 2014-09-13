@@ -16,6 +16,7 @@ describe 'Hierarchy Redirection' do
   it 'should edit properties correctly' do
     @nuevoObjeto.prop = 600
     expect(@nuevoObjeto.prop).to eq(600)
+    expect(@nuevoObjeto.instance_module_variable_get(:prop)).to eq(600)
   end
 
   it 'should not let prototypes share states' do

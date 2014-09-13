@@ -21,6 +21,14 @@ describe 'Let Constructors build Prototypes' do
 
     un_guerrero = Guerrero.new(100, 30, 10)
     expect(un_guerrero.energia).to eq(100)
+    expect(un_guerrero.instance_module_variable_get(:energia)).to eq(100)
+  end
+
+  it 'should set a new constructor with a hash' do
+
+    Guerrero = TP::ProtoConstructor.new(@guerrero)
+    un_guerrero = Guerrero.new({energia: 100, potencial_ofensivo: 30, potencial_defensivo: 10})
+    expect(un_guerrero.potencial_ofensivo).to eq(30)
 
   end
 
