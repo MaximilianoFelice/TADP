@@ -1,19 +1,5 @@
 module TP
 
-  module Singleton_Module_Behaviour
-  # It's pretty important to define a method_missing behaviour and NOT expect that any behaviour added to singleton module appear on it's own.
-  # Ruby's linearization system makes modules respond only to a PREVIOUSLY DEFINED methods AT INCLUDE TIME. This means that,
-  # when behaviour is added to modules, it doesn't impact on any previous instance including them.
-    def method_missing(method, *args, &block)
-      if (@singleton_module.method_defined?(method))
-        method_to_execute = @singleton_module.instance_method(method)
-        method_to_execute.bind(self).call(*args, &block)
-      else
-        super
-      end
-    end
-  end
-
   module Singleton_Module_Accessors
 
     attr_accessor :singleton_module
@@ -21,7 +7,6 @@ module TP
     def singleton_module
       if !@singleton_module then
         @singleton_module = Module.new
-        @singleton_module.include Singleton_Module_Behaviour
         self.extend @singleton_module
       end
       @singleton_module
