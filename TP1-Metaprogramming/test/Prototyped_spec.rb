@@ -1,5 +1,4 @@
 require 'rspec'
-require "TP1/Prototyped"
 require "TP1/Metaprogramming"
 
 describe 'Hierarchy Redirection' do
@@ -79,6 +78,28 @@ describe 'Hierarchy Redirection' do
 
     expect(@aClass.metodin).to eq(70)
 
+  end
+
+  it "should let share prototyped behaviour between prototyped instances" do
+    @anObject = Object.new
+    @anObject.extend TP::Prototyped
+
+    @aClass = Class.new
+    @aClass.extend TP::Prototyped
+
+    @aModule = Module.new
+    @aModule.extend TP::Prototyped
+
+    @anObject.set_method(:metodin, lambda{70})
+
+    @aClass.set_prototype(@anObject)
+
+    @aClass.set_method(:otro_metodo, lambda{"funciono"})
+
+    @aModule.set_prototype(@aClass)
+
+    expect(@aModule.metodin).to eq(70)
+    expect(@aModule.otro_metodo).to eq("funciono")
   end
 
 end

@@ -1,7 +1,5 @@
 require 'rspec'
-require "TP1/Prototyped"
 require "TP1/Metaprogramming"
-require "TP1/Singleton_Module_Behaviour"
 
 describe 'Extend with Singleton Modules' do
 

@@ -1,5 +1,4 @@
 require 'rspec'
-require "TP1/Prototyped"
 require "TP1/Metaprogramming"
 
 describe '4.1 Programatic Prototypes' do
