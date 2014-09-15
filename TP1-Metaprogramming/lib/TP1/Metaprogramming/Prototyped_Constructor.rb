@@ -5,7 +5,7 @@ module TP
 
   module PrototypedConstructor
 
-    attr_accessor :constructor, :prototype
+    attr_accessor :constructor, :prototype, :extends
 
     def self.included(base)
     base.instance_eval{
@@ -26,6 +26,10 @@ module TP
 
       new_object.set_prototype(@prototype)
 
+      build_object(new_object, *args)
+    end
+
+    def build_object(new_object, *args)
       if (args[0].class == Hash) then
         self.build_with_hash(new_object, args[0])
       elsif (args.length == 0)
