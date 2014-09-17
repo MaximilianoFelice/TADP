@@ -3,10 +3,6 @@ require "TP1/Singleton_Module_Behaviour"
 
 module TP
 
-  class Constructor
-
-  end
-
   class CopyConstructor
     def build(new_object)
       new_object.prototype.clone

@@ -66,7 +66,9 @@ describe 'Let Constructors build Prototypes' do
       guerrero_nuevo.potencial_defensivo = un_potencial_defensivo
     })
 
-    Espadachin = Guerrero.extended {
+    expect(Guerrero.builder.class).to eq(TP::ProcConstructor)
+
+    Espadachin = Guerrero.extended proc{
         |espadachin, habilidad, potencial_espada|
         espadachin.set_property(:habilidad, habilidad)
         espadachin.set_property(:potencial_espada, potencial_espada)
@@ -74,6 +76,8 @@ describe 'Let Constructors build Prototypes' do
         @potencial_ofensivo + self.potencial_espada * self.habilidad
       })
     }
+
+    expect(Espadachin.builder.class).to eq(TP::ProcConstructor)
 
     espadachin = Espadachin.new(100, 30, 10, 0.5, 30)
     expect(espadachin.potencial_ofensivo).to eq(45)

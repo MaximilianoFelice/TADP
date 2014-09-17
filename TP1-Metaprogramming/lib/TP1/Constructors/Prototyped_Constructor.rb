@@ -28,11 +28,15 @@ module TP
 
     def new(*args)
 
-      new_object = Object.new
-      new_object.extend Prototyped
-      new_object.set_prototype(self.prototype)
+      if extends.nil? then
+        new_object = Object.new
+        new_object.extend Prototyped
+        new_object.set_prototype(self.prototype)
+      else
+        new_object = self.extends.new(*args.first(self.extends.arity))
+      end
 
-      new_object = self.builder.build(new_object, *args)
+      new_object = self.builder.build(new_object, *args.last(self.arity))
 
       new_object
     end
@@ -41,6 +45,11 @@ module TP
       self.builder.arity
     end
 
+    def extended(*args)
+      new_constructor = self.class.new(self.prototype, *args)
+      new_constructor.extends = self
+      new_constructor
+    end
 
   end
 
