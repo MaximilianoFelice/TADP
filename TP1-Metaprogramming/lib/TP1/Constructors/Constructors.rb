@@ -11,12 +11,20 @@ module TP
     def build(new_object)
       new_object.prototype.clone
     end
+
+    def arity
+      0
+    end
   end
 
   class HashConstructor
     def build(new_object, hash)
       hash.each{ |key, value| new_object.instance_module_variable_set(key, value) }
       new_object
+    end
+
+    def arity
+      1
     end
   end
 
@@ -33,6 +41,9 @@ module TP
       new_object
     end
 
+    def arity
+      self.constructor.arity - 1
+    end
   end
 
 end

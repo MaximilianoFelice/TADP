@@ -37,6 +37,10 @@ module TP
       new_object
     end
 
+    def arity
+      self.builder.arity
+    end
+
 
   end
 
