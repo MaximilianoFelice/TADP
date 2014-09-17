@@ -1,4 +1,3 @@
-
 require 'rspec'
 require "TP1/Metaprogramming"
 

@@ -59,4 +59,27 @@ describe 'Building Prototypes' do
     expect(Guerrero.arity).to eq(0)
   end
 
+  it 'should create objects with mixed constructors' do
+
+    Guerrero = TP::PrototypedConstructor.copy(@guerrero)
+
+    Espadachin = Guerrero.extended proc{
+        |espadachin, habilidad, potencial_espada|
+      espadachin.set_property(:habilidad, habilidad)
+      espadachin.set_property(:potencial_espada, potencial_espada)
+      espadachin.set_method(:potencial_ofensivo, proc {
+        @potencial_ofensivo + self.potencial_espada * self.habilidad
+      })
+    }
+
+    SuperWarro = Espadachin.extended
+
+    warro = SuperWarro.new(0.5, 3, {potencial_ofensivo:8, potencial_defensivo:70})
+
+    expect(warro.habilidad).to eq(0.5)
+    expect(warro.potencial_espada).to eq(3)
+    expect(warro.potencial_ofensivo).to eq(9.5) # potencial_ofensivo redefined in Espadachin extension
+    expect(warro.potencial_defensivo).to eq(70)
+  end
+
 end
