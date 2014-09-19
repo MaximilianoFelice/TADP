@@ -14,11 +14,13 @@ module TP
       new_proto_constructor
     end
 
-    def initialize(prototype, block = nil)
+    def initialize(prototype, block = nil, &do_end)
 
       self.prototype = prototype
-
-      if block.nil? then
+            #if (!do_end.nil?) then raise "Error" end
+      if !do_end.nil? then
+        self.builder = DoEndConstructor.new(&do_end)
+      elsif block.nil? then
         self.builder = HashConstructor.new
       else
         self.builder = ProcConstructor.new(block)

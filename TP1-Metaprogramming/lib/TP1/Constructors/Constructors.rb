@@ -42,4 +42,23 @@ module TP
     end
   end
 
+  class DoEndConstructor
+
+    attr_accessor :do_end_block
+
+    def initialize(&block)
+      self.do_end_block = block
+    end
+
+    def build(new_object, *args)
+      new_object.instance_exec *args, &self.do_end_block
+      new_object
+    end
+
+    def arity
+      self.do_end_block.arity
+    end
+
+  end
+
 end
