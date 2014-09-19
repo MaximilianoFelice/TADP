@@ -7,6 +7,7 @@ module TP
     def self.included(including_class)
       # Including Singleton_Module clone just not to override its previous definition
       including_class.include (Singleton_Module.clone.include Proto_Singleton_Module)
+      including_class.extend Proto_New_Builder
     end
 
     def self.extended(extending_object)
@@ -48,6 +49,15 @@ module TP
       else
         super
       end
+    end
+  end
+
+  module Proto_New_Builder
+    def new_proto(&block)
+      new_prototyped = Object.new
+      new_prototyped.extend Prototyped
+      new_prototyped.instance_eval &block
+      new_prototyped
     end
   end
 
