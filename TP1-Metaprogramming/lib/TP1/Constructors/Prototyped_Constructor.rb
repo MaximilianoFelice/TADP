@@ -6,7 +6,7 @@ module TP
 
   class PrototypedConstructor
 
-    attr_accessor :prototype, :builder, :extends
+    attr_accessor :prototype, :builder, :extends, :base_properties
 
     def self.copy(prototype)
       new_proto_constructor = PrototypedConstructor.new(prototype)
@@ -38,6 +38,8 @@ module TP
         new_object = self.extends.new(*args.first(self.extends.arity))
       end
 
+      new_object = self.set_base_properties(new_object)
+
       new_object = self.builder.build(new_object, *args.last(self.my_arity))
 
       new_object
@@ -63,6 +65,25 @@ module TP
 
     def with(*args, &do_end)
       self.extended(*args, &do_end)
+    end
+
+    def with_properties(*properties)
+      self.base_properties.concat *properties
+      self
+    end
+
+    def base_properties
+      if @base_properties.nil? then
+        @base_properties = Array.new
+      end
+      @base_properties
+    end
+
+    def set_base_properties(new_object)
+      self.base_properties.each do |prop|
+        new_object.set_property(prop, nil)
+      end
+      new_object
     end
 
   end
