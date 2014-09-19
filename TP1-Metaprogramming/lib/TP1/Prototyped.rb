@@ -39,10 +39,12 @@ module TP
       if (self.singleton_module.method_defined?(method))
         method_to_execute = self.singleton_module.instance_method(method)
         method_to_execute.bind(self).call(*args, &block)
-      elsif (method.to_s[-2,2] == "_=")
-        raise "es Metodo"
-      elsif (method.to_s[-1,1] == "=")
-        raise "es Prop"
+      elsif (method =~ /(.*)_=/)
+        method_name = method.to_s.match(/(?<Meth>.*)_=/)
+        set_method(method_name[:Meth], *args)
+      elsif (method =~ /(.*)=/)
+        property_name = method.to_s.match(/(?<Prop>.*)=/)
+        set_property(property_name[:Prop], *args)
       else
         super
       end
