@@ -14,10 +14,10 @@ module TP
       new_proto_constructor
     end
 
-    def initialize(prototype, block = nil, &do_end)
+    def initialize(prototype = nil, block = nil, &do_end)
 
       self.prototype = prototype
-            #if (!do_end.nil?) then raise "Error" end
+
       if !do_end.nil? then
         self.builder = DoEndConstructor.new(&do_end)
       elsif block.nil? then
@@ -33,7 +33,7 @@ module TP
       if extends.nil? then
         new_object = Object.new
         new_object.extend Prototyped
-        new_object.set_prototype(self.prototype)
+        if (!self.prototype.nil?) then new_object.set_prototype(self.prototype) end
       else
         new_object = self.extends.new(*args.first(self.extends.arity))
       end
@@ -47,10 +47,18 @@ module TP
       self.builder.arity
     end
 
-    def extended(*args)
-      new_constructor = self.class.new(self.prototype, *args)
+    def extended(*args, &do_end)
+      new_constructor = self.class.new(self.prototype, *args, &do_end)
       new_constructor.extends = self
       new_constructor
+    end
+
+    def self.create(*args, &do_end)
+      self.new(*args, &do_end)
+    end
+
+    def with(*args, &do_end)
+      self.extended(*args, &do_end)
     end
 
   end
