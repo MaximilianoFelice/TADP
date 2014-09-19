@@ -15,7 +15,7 @@ module TP
 
   class HashConstructor
     def build(new_object, hash)
-      hash.each{ |key, value| new_object.instance_module_variable_set(key, value) }
+      hash.each{ |key, value| new_object.send("#{key}=", value) }
       new_object
     end
 

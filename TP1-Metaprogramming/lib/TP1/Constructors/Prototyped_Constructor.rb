@@ -38,12 +38,16 @@ module TP
         new_object = self.extends.new(*args.first(self.extends.arity))
       end
 
-      new_object = self.builder.build(new_object, *args.last(self.arity))
+      new_object = self.builder.build(new_object, *args.last(self.my_arity))
 
       new_object
     end
 
     def arity
+      self.my_arity + (self.extends.nil?? 0:self.extends.arity)
+    end
+
+    def my_arity
       self.builder.arity
     end
 
