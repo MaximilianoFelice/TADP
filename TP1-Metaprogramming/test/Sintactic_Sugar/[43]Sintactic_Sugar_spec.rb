@@ -31,7 +31,7 @@ describe 'Respect Sintactic Sugar' do
 
   it 'should build object from a block' do
 
-    guerrero_proto = TP::PrototypedObject.new_proto {
+    guerrero_proto = TP::PrototypedObject.new_prototype {
       self.energia = 100
       self.potencial_ofensivo = 30
       self.potencial_defensivo = 10
@@ -50,4 +50,20 @@ describe 'Respect Sintactic Sugar' do
     Guerrero.new.atacar_a(un_guerrero)
     expect(un_guerrero.energia).to eq(80)
   end
+
+  it 'Should set new prototyped constructors builders' do
+    @guerrero = Object.new
+    @guerrero.extend TP::Prototyped
+
+    Guerrero = TP::PrototypedConstructor.new(@guerrero) do |una_energia, un_potencial_ofensivo,un_potencial_defensivo|
+        self.energia = una_energia
+        self.potencial_ofensivo = un_potencial_ofensivo
+        self.potencial_defensivo = un_potencial_defensivo
+    end
+
+    un_warro = Guerrero.new(10, 30, 50)
+
+    expect(un_warro.potencial_ofensivo).to eq(30)
+  end
+
 end

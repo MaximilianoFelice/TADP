@@ -53,9 +53,8 @@ module TP
   end
 
   module Proto_New_Builder
-    def new_proto(&block)
-      new_prototyped = Object.new
-      new_prototyped.extend Prototyped
+    def new_prototype(&block)
+      new_prototyped = self.new
       new_prototyped.instance_eval &block
       new_prototyped
     end
