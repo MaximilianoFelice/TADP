@@ -25,9 +25,17 @@ module TP
     end
 
     def set_prototype(object)
-      self.set_property(:prototype, object)
-      self.singleton_module.include self.prototype.singleton_module
+      self.prototypes << object
+      self.singleton_module.include object.singleton_module
       self.extend self.singleton_module
+    end
+
+    def set_prototypes(*prototypes)
+      prototypes.each{ |proto| self.set_prototype(proto)}
+    end
+
+    def prototypes
+      @prototypes ||= Array.new
     end
 
   end

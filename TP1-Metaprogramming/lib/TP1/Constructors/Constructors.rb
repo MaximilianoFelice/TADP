@@ -5,7 +5,7 @@ module TP
 
   class CopyConstructor
     def build(new_object)
-      new_object.prototype.clone
+      new_object.prototypes.last.clone
     end
 
     def arity
