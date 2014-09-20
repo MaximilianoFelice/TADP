@@ -5,7 +5,7 @@ module TP
 
   class CopyConstructor
     def build(new_object)
-      new_object.prototypes.last.clone
+      new_object.prototypes.first.clone
     end
 
     def arity
@@ -14,6 +14,10 @@ module TP
   end
 
   class HashConstructor
+    def initialize
+
+    end
+
     def build(new_object, hash)
       hash.each{ |key, value| new_object.send("#{key}=", value) }
       new_object
@@ -58,6 +62,27 @@ module TP
     def arity
       self.do_end_block.arity
     end
+
+  end
+
+  class WithPropertiesConstructor
+
+    attr_accessor :base_properties
+
+    def initialize(properties)
+      self.base_properties = properties
+    end
+
+    def arity
+      self.base_properties.length
+    end
+
+    def build(new_object, *args)
+      new_hash = self.base_properties.zip(args).to_h
+      new_hash.each{ |key, value| new_object.send("#{key}=", value) }
+      new_object
+    end
+
 
   end
 

@@ -78,7 +78,9 @@ describe 'Building Prototypes' do
 
     expect(warro.habilidad).to eq(0.5)
     expect(warro.potencial_espada).to eq(3)
-    expect(warro.potencial_ofensivo).to eq(9.5) # potencial_ofensivo redefined in Espadachin extension
+    expect(warro.potencial_ofensivo).not_to eq(9.5)
+    # By this prototyped defined behaviour, it gets the accessor defined in the hash BEFORE it can access Guerrero's potencial_ofensivo
+    expect(warro.potencial_ofensivo).to eq(8)
     expect(warro.potencial_defensivo).to eq(70)
   end
 

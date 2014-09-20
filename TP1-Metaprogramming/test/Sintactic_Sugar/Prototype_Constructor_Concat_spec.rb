@@ -20,4 +20,5 @@ describe 'Build correctly concatenated prototypes' do
     expect(new_object.bar).to eq(40)
 
   end
+
 end

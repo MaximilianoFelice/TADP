@@ -96,9 +96,10 @@ describe 'Respect Sintactic Sugar' do
       self.recibe_danio_ = proc{ |value| self.energia -= value}
     }.with_properties([:energia, :potencial_ofensivo, :potencial_defensivo])
 
-    new_warro = Guerrero.new()
+    new_warro = Guerrero.new(30, 10, 5)
 
     expect(new_warro.respond_to?(:energia)).to eq(true)
+    expect(new_warro.energia).to eq(30)
   end
 
   it 'should use new syntax in constructors' do
@@ -127,6 +128,25 @@ describe 'Respect Sintactic Sugar' do
     expect(new_espa.respond_to?(:potencial_ofensivo=)).to eq(true)
     new_espa.potencial_ofensivo = 100
     expect(new_espa.potencial_ofensivo).to eq(100 + 50 * 10)
+  end
+
+  it 'should redefine constructor based behaviour' do
+
+    Guerrero = TP::PrototypedConstructor.create {
+      self.atacar_a_ = proc{|otro_guerrero|
+        if (otro_guerrero.potencial_defensivo < self.potencial_ofensivo)
+          otro_guerrero.recibe_danio(self.potencial_ofensivo - otro_guerrero.potencial_defensivo)
+        end
+      }
+      self.recibe_danio_ = proc{ |value| self.energia -= value}
+    }.with_properties([:energia, :potencial_ofensivo, :potencial_defensivo])
+
+    atila = Guerrero.new(100, 50, 30)
+    expect(atila.potencial_ofensivo).to eq(50)
+    proto_guerrero = Guerrero.base_prototype
+    proto_guerrero.set_method(:potencial_ofensivo, proc{1000})
+    expect(atila.potencial_ofensivo).to eq(1000)
+
   end
 
 end
