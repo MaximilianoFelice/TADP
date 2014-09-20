@@ -14,10 +14,6 @@ module TP
   end
 
   class HashConstructor
-    def initialize
-
-    end
-
     def build(new_object, hash)
       hash.each{ |key, value| new_object.send("#{key}=", value) }
       new_object
@@ -79,8 +75,7 @@ module TP
 
     def build(new_object, *args)
       new_hash = self.base_properties.zip(args).to_h
-      new_hash.each{ |key, value| new_object.send("#{key}=", value) }
-      new_object
+      HashConstructor.new.build(new_object,new_hash)
     end
 
 
