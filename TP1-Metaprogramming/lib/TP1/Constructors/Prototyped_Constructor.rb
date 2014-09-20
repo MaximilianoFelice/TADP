@@ -23,14 +23,13 @@ module TP
 
       if !do_end.nil? then
         self.builder = DoEndConstructor.new(&do_end)
-        self.base_prototype = self.builder.build(self.base_prototype)
       elsif block.nil? then
         self.builder = HashConstructor.new
-        self.base_prototype = self.builder.build(self.base_prototype, {})
       else
         self.builder = ProcConstructor.new(block)
-        self.base_prototype = self.builder.build(self.base_prototype)
       end
+
+      self.set_base_prototype
 
     end
 
@@ -78,15 +77,17 @@ module TP
     end
 
     def with_properties(*properties)
-      new_prop_constructor = self.class.new()
+      new_prop_constructor = self.extended()
       new_prop_constructor.builder = WithPropertiesConstructor.new(*properties)
-      base_prototype = Object.new
-      base_prototype.extend Prototyped
-      new_prop_constructor.base_prototype = new_prop_constructor.builder.build(base_prototype)
-      new_prop_constructor.extends = self
+      new_prop_constructor.set_base_prototype
       new_prop_constructor
     end
 
+    def set_base_prototype
+      base_prototype = Object.new
+      base_prototype.extend Prototyped
+      self.base_prototype = self.builder.build(base_prototype)
+    end
 
   end
 

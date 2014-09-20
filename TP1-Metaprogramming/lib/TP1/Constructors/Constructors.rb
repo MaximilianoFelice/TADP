@@ -14,7 +14,7 @@ module TP
   end
 
   class HashConstructor
-    def build(new_object, hash)
+    def build(new_object, hash = {})
       hash.each{ |key, value| new_object.send("#{key}=", value) }
       new_object
     end
