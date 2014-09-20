@@ -101,4 +101,32 @@ describe 'Respect Sintactic Sugar' do
     expect(new_warro.respond_to?(:energia)).to eq(true)
   end
 
+  it 'should use new syntax in constructors' do
+    Guerrero = TP::PrototypedConstructor.create {
+      self.atacar_a_ = proc{|otro_guerrero|
+        if (otro_guerrero.potencial_defensivo < self.potencial_ofensivo)
+          otro_guerrero.recibe_danio(self.potencial_ofensivo - otro_guerrero.potencial_defensivo)
+        end
+      }
+      self.recibe_danio_ = proc{ |value| self.energia -= value}
+    }.with_properties([:energia, :potencial_ofensivo, :potencial_defensivo])
+
+    Espadachin = Guerrero.extended {
+        |una_habilidad, un_potencial_espada|
+      self.habilidad = una_habilidad
+      self.potencial_espada = un_potencial_espada
+      self.potencial_ofensivo_ = proc {
+        @potencial_ofensivo + self.potencial_espada * self.habilidad
+      }
+    }
+
+    new_espa = Espadachin.new(10, 50)
+
+    expect(new_espa.habilidad).to eq(10)
+    expect(new_espa.potencial_espada).to eq(50)
+    expect(new_espa.respond_to?(:potencial_ofensivo=)).to eq(true)
+    new_espa.potencial_ofensivo = 100
+    expect(new_espa.potencial_ofensivo).to eq(100 + 50 * 10)
+  end
+
 end
