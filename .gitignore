@@ -38,3 +38,8 @@ build/
 # http://devnet.jetbrains.com/docs/DOC-1192
 */.idea/workspace.xml
 */.idea/tasks.xml
+
+
+
+# Ignoring TP2 bin folder
+TP2-ArgentinaExpress/bin/*
