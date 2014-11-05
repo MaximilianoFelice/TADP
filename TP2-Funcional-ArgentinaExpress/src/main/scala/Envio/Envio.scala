@@ -6,7 +6,7 @@ import ArgentinaExpress.Paquete.Paquete
  * Created by maximilianofelice on 05/11/14.
  */
 case class Envio
-  (val paquetes: Set[Paquete]){
+  (val paquetes: Seq[Paquete]){
 
   def volumen: Integer = {
     paquetes.map(_.volumen).sum
