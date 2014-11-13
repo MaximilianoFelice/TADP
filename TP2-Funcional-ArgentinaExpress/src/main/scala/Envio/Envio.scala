@@ -23,7 +23,7 @@ package object Envios {
   }
 
 
-  val insertarCaracteristica: ((EnvioTup, Caracteristica)) => Option[Envio] = {
+  val insertarCaracteristica: (EnvioTup, Caracteristica) => Option[Envio] = {
     case (a, c) if a.caracteristicas.contains(c) => None
     case ((x,y,z,w,caracteristicas), c) => Some((x,y,z,w, caracteristicas))
   }
@@ -32,7 +32,7 @@ package object Envios {
     case (carac, envio) => {
       (for {
             envioActualizado <- insertarCaracteristica(envio, carac)
-      } yield carac.f(envioActualizado) ) match {
+      } yield carac.actualizarEnvio(envioActualizado) ) match {
         case Some(envioAc) => envioAc
         case None => envio
       }

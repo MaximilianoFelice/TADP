@@ -6,10 +6,7 @@ package ArgentinaExpress.Transporte
 abstract class Terrestre (capacidad:Int, costoBase:Float, val costoPeaje: Double, velocidadPromedio:Int)
   extends Transporte(capacidad, costoBase, velocidadPromedio) {
 
-
-
   val costoRefrig: Double = 5
-
 }
 
 case class Camion() extends Terrestre(capacidad=45, costoBase=100, costoPeaje=12, velocidadPromedio=60){
