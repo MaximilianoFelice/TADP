@@ -43,3 +43,15 @@ build/
 
 # Ignoring TP2 bin folder
 TP2-ArgentinaExpress/bin/*
+
+
+# Ignoring TP2 Target
+TP2-Funcional-ArgentinaExpress/target/
+TP2-Funcional-ArgentinaExpress/*.class
+TP2-Funcional-ArgentinaExpress/*.iml
+TP2-Funcional-ArgentinaExpress/*.ipr
+TP2-Funcional-ArgentinaExpress/*.iws
+TP2-Funcional-ArgentinaExpress/.idea/
+TP2-Funcional-ArgentinaExpress/out
+
+

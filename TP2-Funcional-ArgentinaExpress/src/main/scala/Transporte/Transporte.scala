@@ -5,13 +5,13 @@ import ArgentinaExpress.Envio.Envio
 /**
  * Created by maximilianofelice on 05/11/14.
  */
-abstract class Transporte (val capacidad:Integer,
+abstract class Transporte (val capacidad:Int,
                           val costoBase: Double,
-                          val velocidadPromedio: Integer){
+                          val velocidadPromedio: Int){
 
   var envios: Set[Envio] = Set()
 
-  def volumenOcupado: Integer = {
+  def volumenOcupado: Int = {
     envios.map(_.volumen).sum
   }
 

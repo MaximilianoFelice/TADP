@@ -3,7 +3,7 @@ package ArgentinaExpress.Transporte
 /**
  * Created by maximilianofelice on 05/11/14.
  */
-abstract class Terrestre (capacidad:Integer, costoBase:Float, val costoPeaje: Double, velocidadPromedio:Integer)
+abstract class Terrestre (capacidad:Int, costoBase:Float, val costoPeaje: Double, velocidadPromedio:Int)
   extends Transporte(capacidad, costoBase, velocidadPromedio) {
 
 
