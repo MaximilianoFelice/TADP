@@ -1,8 +1,9 @@
 package ArgentinaExpress.test.Envio
 
-import ArgentinaExpress.Caracteristica.{Caracteristica, Refrigerado}
+import ArgentinaExpress.Caracteristica.Caracteristicas._
 import ArgentinaExpress.Envio.Envios._
 import ArgentinaExpress.Sucursal.Sucursal
+import ArgentinaExpress.Transporte.Camion
 
 /**
  * Created by maximilianofelice on 05/11/14.
@@ -11,29 +12,51 @@ import org.scalatest.FunSuite
 
 class SetSuite extends FunSuite {
 
-  test("it's true"){
 
-    val envio = new Envio(10, new Sucursal(3), new Sucursal(5), 10, Nil)
+  test("it's true") {
 
-    var x = agregarCaracteristica(Refrigerado, envio)
-    assert(x.costo == 20)
+
+    assert(sePuedeAgregar(Refrigerado, Seq(Normal,ConAnimales)))
 
   }
 
-  test("Tambien es true"){
-    assert(Nil.contains(Refrigerado) == false)
+
+test("it's true 2") {
+
+  val envio = new Envio(10, new Sucursal(5), 10, Nil)
+
+  val x = agregarCaracteristica(Refrigerado, envio)
+  assert(x.costo == 220)
+
+}
+
+test("Tambien es true"){
+  assert(Nil.contains(Refrigerado) == false)
+}
+
+test("un tercer test"){
+
+  val envio = new Envio(10, new Sucursal(5), 10, Nil)
+
+  var alguito: Option[Envio] = insertarCaracteristica(envio, Refrigerado)
+
+  val id: (Envio, Caracteristica) => Option[Caracteristica] = {
+    case (env, Refrigerado) if env.costo > 3 => Some(Refrigerado)
   }
+  assert(id(envio, Refrigerado) == Some(Refrigerado))
+}
 
-  test("un tercer test"){
 
-    val envio = new Envio(10, new Sucursal(3), new Sucursal(5), 10, Nil)
 
-    var alguito: Option[Envio] = insertarCaracteristica(envio, Refrigerado)
+test("Se puede agregar una caracteristica a un envio"){
 
-    val id: (Envio, Caracteristica) => Option[Caracteristica] = {
-      case (env, Refrigerado) if env.costo > 3 => Some(Refrigerado)
-    }
-    assert(id(envio, Refrigerado) == Some(Refrigerado))
-  }
+  assert(sePuedeAgregar(Refrigerado, Seq(Normal,ConAnimales)))
+}
+
+test("No se puede agregar una caracteristica incompatible"){
+
+  assert(!sePuedeAgregar(Urgente, Seq(Normal,ConAnimales)))
+
+}
 
 }

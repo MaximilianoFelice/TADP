@@ -4,7 +4,7 @@
 		module="tp2-funcional-argentinaexpress-build"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20141108173200"
+		publication="20141114145405"
 		e:sbtVersion="0.13" e:scalaVersion="2.10"
 	>
 		<description>
