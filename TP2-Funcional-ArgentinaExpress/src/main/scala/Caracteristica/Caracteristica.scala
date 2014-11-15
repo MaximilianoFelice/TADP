@@ -18,10 +18,10 @@ package object Caracteristicas{
       incompatibleCon orElse {case _ => true}
     }
   };
-
+  //TODO FALTA AGREGAR CADA PUTO PRECIO A CADA CARACTERISTICA (Normal = 80, Urgente = 110, Refrigerado = 210, Fragil = 120)
   case object Normal extends Caracteristica
   {
-    val actualizarEnvio: Envio => Envio = { case x:Envio => new Envio(x.costo + 80, x.destino, x.volumen, x.caracteristicas)}
+    val actualizarEnvio: Envio => Envio = { case x:Envio => new Envio(x.costo + 10, x.destino, x.volumen, x.caracteristicas)}
 
     val incompatibleCon: PartialFunction[Caracteristica, Boolean] = {case Urgente => false}
 
@@ -29,21 +29,21 @@ package object Caracteristicas{
 
   case object Urgente extends Caracteristica
   {
-    val actualizarEnvio: Envio => Envio = { case x:Envio => new Envio(x.costo + 110, x.destino, x.volumen, x.caracteristicas)}
+    val actualizarEnvio: Envio => Envio = { case x:Envio => new Envio(x.costo + 20, x.destino, x.volumen, x.caracteristicas)}
 
     val incompatibleCon: PartialFunction[Caracteristica, Boolean] = {case Normal => false}
   };
 
   case object Refrigerado extends Caracteristica
   {
-    val actualizarEnvio: Envio => Envio = { case x:Envio => new Envio(x.costo + 210, x.destino, x.volumen, x.caracteristicas)}
+    val actualizarEnvio: Envio => Envio = { case x:Envio => new Envio(x.costo + 70, x.destino, x.volumen, x.caracteristicas)}
 
     val incompatibleCon: PartialFunction[Caracteristica, Boolean] = Map.empty
   };
 
   case object Fragil extends Caracteristica
   {
-    val actualizarEnvio: Envio => Envio = { case x:Envio => new Envio(x.costo + 120, x.destino, x.volumen, x.caracteristicas)}
+    val actualizarEnvio: Envio => Envio = { case x:Envio => new Envio(x.costo + 18, x.destino, x.volumen, x.caracteristicas)}
 
     val incompatibleCon: PartialFunction[Caracteristica, Boolean] = Map.empty
   };

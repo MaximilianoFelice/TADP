@@ -16,13 +16,21 @@ package object Transportes{
                             val costoBase: Double,
                             val velocidadPromedio: Int,
                             val caracteristicas: Seq[Caracteristica]){
-  //TODO Sucursal origen ??
+
+    //TODO Extras(Seguimiento GPS y/o Video)
+    
+    var origen: Sucursal = CasaCentral //Sucursal por defecto es CasaCentral
+    
     var envios: Set[Envio] = Set()
 
     def volumenOcupado: Int = {
       envios.map(_.volumen).sum
     }
-
+    
+    def porcentajeVolumenOcupado: Double = {
+      volumenOcupado / capacidad
+    }
+    
     def volumenDisponible: Int = {
       capacidad - volumenOcupado
     }
@@ -39,8 +47,9 @@ package object Transportes{
       envios.head.destino
     }
 
-    def salirDe (origen: Sucursal) = {
+    def salirDe (sucursal: Sucursal) = {
       if (puedeSalir){
+        origen = sucursal
         origen.disminuirStock(envios)
         sucursalDestino.enViaje(envios)
       }
@@ -58,14 +67,43 @@ package object Transportes{
       if (esAgregable(e)) envios += e
       else throw new Error("No se pudo agregar el envío, papá ;)") //TODO Crear class para la exception
     }
-
+    
+    def distanciaEntreSucursales: Double
+    
+    def valorBonusVolumen: Double
+    
+    def bonusVolumen: Double = {
+      if (porcentajeVolumenOcupado < 0.2) valorBonusVolumen
+      else 1
+    }
+    
+    def subtotal: Double = {
+      envios.map(_.costo).sum + costoDistancia
+    }
+    
+    def costoDistancia: Double = {
+      (costoBase + costoExtras) * distanciaEntreSucursales + extraDistancia(distanciaEntreSucursales)
+    }
+    
+    val extraDistancia: Double => Double = {
+      case d if d < 100 => 50
+      case d if d < 200 => 86
+      case _ => 137
+    }
+    
+    def costoExtras: Double = {
+      //TODO extras.map(_.costoPorKilometro).sum
+      0
+    }
+    
     def costo: Double = {
-      envios.map(_.costo).sum + costoBase
+      subtotal * bonusVolumen
     }
   }
 
   val insertarCaracteristica: (Transporte, Caracteristica) => Option[Transporte] = {
-    case (t,c) if sePuedeAgregar(c, t.caracteristicas) => Some((t.agregarCaracteristica(c)))
+    // TODO Ver que tan escalable es algo así o hacer algo parecido al env{io (actualizarTransporte) case (t, SustanciasPeligrosas) if sePuedeAgregar(SustanciasPeligrosas, t.caracteristicas) => 
+  	case (t,c) if sePuedeAgregar(c, t.caracteristicas) => Some((t.agregarCaracteristica(c)))
     case (t,c) => None
   }
 
@@ -80,5 +118,10 @@ package object Transportes{
       }
     }
   }
-
+  
+  //Mockeando cálculo de distancias
+  val distanciaTerrestreEntre: (Sucursal, Sucursal) => Double = {case _ => 3}
+  val distanciaAereaEntre: (Sucursal, Sucursal) => Double = {case _ => 5}
+  val cantidadPeajesEntre: (Sucursal, Sucursal) => Int = {case _ => 1}
+  
 }

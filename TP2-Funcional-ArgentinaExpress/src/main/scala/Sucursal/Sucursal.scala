@@ -9,6 +9,7 @@ import ArgentinaExpress.Transporte.Transportes._
 class Sucursal (
   val volumenDeposito: Int){
 
+  val pais: String = "Argentina" //TODO Ver si ponerlo en el constructor, sin chequeo imposible
   var enviosDeposito: Set[Envio] = Set()
   var enviosViajando: Set[Envio] = Set()
 
@@ -33,10 +34,10 @@ class Sucursal (
   }
 }
 
-trait CalculadorDistancia {
-  def distanciaTerrestreEntre(sucursal1: Sucursal, sucursal2: Sucursal): Double = 3
-  def distanciaAereaEntre(sucursal1: Sucursal, sucursal2: Sucursal): Double = 5
-  def cantidadPeajesEntre(sucursal1: Sucursal, sucursal2: Sucursal): Int = 1
-}
+//trait CalculadorDistancia {
+//  def distanciaTerrestreEntre(sucursal1: Sucursal, sucursal2: Sucursal): Double = 3
+//  def distanciaAereaEntre(sucursal1: Sucursal, sucursal2: Sucursal): Double = 5
+//  def cantidadPeajesEntre(sucursal1: Sucursal, sucursal2: Sucursal): Int = 1
+//}
 
 case class CasaCentral(override val volumenDeposito: Int) extends Sucursal(volumenDeposito)

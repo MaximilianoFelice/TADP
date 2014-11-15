@@ -8,13 +8,21 @@ import ArgentinaExpress.Caracteristica.Caracteristicas._
  */
 abstract class Terrestre (capacidad:Int, costoBase:Float, val costoPeaje: Double, velocidadPromedio:Int, caracteristicas: Seq[Caracteristica])
   extends Transporte(capacidad, costoBase, velocidadPromedio, caracteristicas) {
-
-  override def costo: Double ={
-    super.costo  + costoPeaje + bonusRefrigeracion
+	
+  def distanciaEntreSucursales: Double = {
+    distanciaTerrestreEntre(origen, sucursalDestino)
+  }
+  
+  override def subtotal: Double ={
+    super.subtotal + costoTotalPeaje + bonusRefrigeracion
   }
 
   def bonusRefrigeracion: Double = {
     envios.count(_.caracteristicas.contains(Refrigerado)) * costoRefrig
+  }
+  
+  def costoTotalPeaje: Double ={
+    costoPeaje + cantidadPeajesEntre(origen, sucursalDestino)
   }
 
   val costoRefrig: Double = 5
@@ -27,6 +35,10 @@ case class Camion(override val caracteristicas: Seq[Caracteristica] = Nil) exten
     val caracs: Seq[Caracteristica] = caracteristicas :+ caracteristica
     new Camion(caracs)
   }
+  
+  def valorBonusVolumen: Double = {
+    1 + porcentajeVolumenOcupado
+  }
 
 }
 
@@ -37,4 +49,9 @@ case class Furgoneta(override val caracteristicas: Seq[Caracteristica] = Nil) ex
     new Furgoneta(caracs)
   }
 
+  def valorBonusVolumen: Double = {
+    if (envios.count(_.caracteristicas.contains(Urgente)) >= 3) 2
+    else 1
+  }
+  
 }

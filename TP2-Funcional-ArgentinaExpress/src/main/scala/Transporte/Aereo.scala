@@ -11,10 +11,23 @@ case class Avion(override val caracteristicas: Seq[Caracteristica]) extends Tran
     val caracs: Seq[Caracteristica] = caracteristicas :+ caracteristica
     new Avion(caracs)
   }
-
-  override def costo: Double = {
-    super.costo * porcImpuesto
+  
+  def distanciaEntreSucursales: Double = {
+    distanciaAereaEntre(origen, sucursalDestino)
+  }
+  
+  override def subtotal: Double = {
+    super.subtotal * coefImpuesto
+  }
+  
+  def valorBonusVolumen: Double = {
+    3 //TODO quizás sea mejor crear un val
   }
 
+  def coefImpuesto: Double = {
+    if (origen.pais != sucursalDestino.pais) 1 + porcImpuesto
+    else 1
+  }
+  
   val porcImpuesto = 0.1
 }
