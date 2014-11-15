@@ -78,7 +78,7 @@ package object Transportes{
     }
     
     def subtotal: Double = {
-      envios.map(_.costo).sum + costoDistancia
+      costoEnvios + costoDistancia
     }
     
     def costoDistancia: Double = {
@@ -96,8 +96,24 @@ package object Transportes{
       0
     }
     
-    def costo: Double = {
+    def beneficio: Double = {
+      envios.map(_.precio).sum
+    }
+    
+    def costoEnvios: Double = {
+      envios.map(_.costo).sum
+    }
+    
+    def costo: Double = { //Costo definitivo
       subtotal * bonusVolumen
+    }
+    
+    def gananciaBruta: Double = {
+      beneficio - costoEnvios
+    }
+    
+    def gananciaReal: Double = { //Es un extra, no se pide realmente
+      beneficio - costo
     }
   }
 
