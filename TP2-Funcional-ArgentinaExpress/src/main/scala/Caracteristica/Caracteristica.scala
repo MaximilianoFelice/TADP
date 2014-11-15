@@ -50,14 +50,14 @@ package object Caracteristicas{
 
   case object ConAnimales extends Caracteristica
   {
-    val actualizarEnvio: Envio => Envio = {case e => e}
+    val actualizarEnvio: Envio => Envio = {case e => e} //TODO Leé el to do de abajo
 
     val incompatibleCon: PartialFunction[Caracteristica, Boolean] = {case SustanciasPeligrosas => false}
   };
 
   case object SustanciasPeligrosas extends Caracteristica
   {
-    val actualizarEnvio: Envio => Envio = {case e => e}
+    val actualizarEnvio: Envio => Envio = {case e => e} //TODO Aumentar el costo acá si es para el envío
 
     val incompatibleCon: PartialFunction[Caracteristica, Boolean] = {case ConAnimales => false}
   };

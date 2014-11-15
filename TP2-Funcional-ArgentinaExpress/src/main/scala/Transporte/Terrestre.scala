@@ -36,10 +36,29 @@ case class Camion(override val caracteristicas: Seq[Caracteristica] = Nil) exten
     new Camion(caracs)
   }
   
+  override def subtotal: Double ={
+    super.subtotal + extraSustanciasUrgentes
+  }
+  
+  def extraSustanciasUrgentes = {
+    if (caracteristicas.contains(SustanciasPeligrosas) & caracteristicas.contains(Urgente)){//TODO POR FAVOR MARTÍN, RECORDAR SOS AYUDANTE DE PARADIGMAS
+      (volumenEnvios compose enviosUrgentes)(envios) / capacidad * 3 //TODO Revisar si se banca la composición y demás
+    } else 0
+  }
+  
+  val enviosUrgentes: Seq[Envio] => Seq[Envio] = {
+    case envios => envios.filter(_.caracteristicas.contains(Urgente))
+  }
+  
+  val volumenEnvios: Seq[Envio] => Double = {
+    case envios => envios.map(_.volumen).sum
+  }
+  
+  
   def valorBonusVolumen: Double = {
     1 + porcentajeVolumenOcupado
   }
-
+  
 }
 
 case class Furgoneta(override val caracteristicas: Seq[Caracteristica] = Nil) extends Terrestre(capacidad=9, costoBase=40, costoPeaje=6, velocidadPromedio=80, caracteristicas){

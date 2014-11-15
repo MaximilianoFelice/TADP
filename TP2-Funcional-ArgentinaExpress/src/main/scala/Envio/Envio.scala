@@ -19,6 +19,7 @@ package object Envios {
    val destino: Sucursal,
    val volumen: Int,
    val caracteristicas: Seq[Caracteristica]) {
+    var precio: Double = 100 //TODO Hacerla parte del constructor, asignarle el valor cuando se mete la caracteristica
   }
 
 
