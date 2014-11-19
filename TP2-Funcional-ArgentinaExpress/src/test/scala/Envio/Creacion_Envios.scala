@@ -3,7 +3,6 @@ package ArgentinaExpress.test.Envio
 import ArgentinaExpress.Caracteristica.Caracteristicas._
 import ArgentinaExpress.Envio.Envios._
 import ArgentinaExpress.Sucursal.Sucursal
-import ArgentinaExpress.Transporte.Camion
 
 /**
  * Created by maximilianofelice on 05/11/14.

@@ -16,5 +16,5 @@ case class Avion(override val caracteristicas: Seq[Caracteristica]) extends Tran
     super.costo * porcImpuesto
   }
 
-  val porcImpuesto = 0.1
+  val porcImpuesto = 1.1
 }

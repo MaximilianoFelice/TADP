@@ -39,4 +39,4 @@ trait CalculadorDistancia {
   def cantidadPeajesEntre(sucursal1: Sucursal, sucursal2: Sucursal): Int = 1
 }
 
-case class CasaCentral(override val volumenDeposito: Int) extends Sucursal(volumenDeposito)
+case class CasaCentral(override val volumenDeposito: Int = 50) extends Sucursal(volumenDeposito)

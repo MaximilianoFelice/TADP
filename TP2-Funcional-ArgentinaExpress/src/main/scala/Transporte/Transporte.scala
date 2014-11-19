@@ -1,10 +1,8 @@
 package ArgentinaExpress.Transporte
 
-import java.lang.NoSuchMethodError
-
 import ArgentinaExpress.Caracteristica.Caracteristicas._
 import ArgentinaExpress.Envio.Envios._
-import ArgentinaExpress.Sucursal.Sucursal
+import ArgentinaExpress.Sucursal.{CasaCentral, Sucursal}
 
 /**
  * Created by maximilianofelice on 05/11/14.
@@ -17,6 +15,8 @@ package object Transportes{
                             val velocidadPromedio: Int,
                             val caracteristicas: Seq[Caracteristica]){
   //TODO Sucursal origen ??
+    val origen: Sucursal = CasaCentral()
+
     var envios: Set[Envio] = Set()
 
     def volumenOcupado: Int = {
@@ -38,6 +38,8 @@ package object Transportes{
     def sucursalDestino: Sucursal = {
       envios.head.destino
     }
+
+    def sucursales: Set[Sucursal] = Set(sucursalDestino, origen)
 
     def salirDe (origen: Sucursal) = {
       if (puedeSalir){
