@@ -5,7 +5,7 @@ import ArgentinaExpress.Envio.Envios._
 import ArgentinaExpress.Sucursal.Sucursal
 import ArgentinaExpress.Transporte.Transportes._
 import ArgentinaExpress.Transporte._
-import Estadisticas.EstadisticasPack._
+import ArgentinaExpress.Estadisticas.EstadisticasPack._
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
 /**
@@ -17,7 +17,7 @@ class Control_Estadisticas extends FunSuite with BeforeAndAfter {
   var sucursal2: Sucursal  = _
   var sucursal3: Sucursal  = _
   var sucursal4: Sucursal = _
-  var sucursales: Sucursales = _
+  var sucursales: Set[Sucursal] = _
   var env1: Envio = _
   var env2: Envio = _
   var env3: Envio = _
@@ -27,7 +27,7 @@ class Control_Estadisticas extends FunSuite with BeforeAndAfter {
   var f100: Furgoneta = _
   var avion: Avion = _
   var camionBis: Camion = _
-  var transportes: Set[Transporte] = _
+  var transportes: Transportes[Transporte] = _
   var camiones: Transportes[Camion] = _
 
   before {
@@ -36,7 +36,7 @@ class Control_Estadisticas extends FunSuite with BeforeAndAfter {
     sucursal3 = new Sucursal(7)
     sucursal4 = new Sucursal(20)
     sucursales = Set(sucursal1, sucursal2, sucursal3, sucursal4)
-    env1 = Envio(10, sucursal1, 5, Seq(Urgente, Refrigerado))
+    env1 = Envio(10, sucursal1, 5, Seq(Refrigerado))
     env2 = Envio(15, sucursal2, 2, Seq(Urgente, Refrigerado))
     env3 = Envio(8, sucursal1, 3, Seq(ConAnimales))
     env4 = Envio(14, sucursal3, 4, Seq(Normal, SustanciasPeligrosas))
@@ -45,26 +45,25 @@ class Control_Estadisticas extends FunSuite with BeforeAndAfter {
     f100 = Furgoneta(Seq(Refrigerado, ConAnimales))
     avion = Avion(Seq(Refrigerado))
     camionBis = Camion(Seq(Urgente, Refrigerado))
-    transportes = Set(camion, camionBis, f100)
+    transportes = Seq(camion, camionBis, f100)
 
     camion.agregarEnvio(env4)
     f100.agregarEnvio(env3)
     avion.agregarEnvio(env1)
     camionBis.agregarEnvio(env2)
 
-    camiones = Set(camion, camionBis)
+    camiones = Seq(camion, camionBis)
 
     Estadisticas.envios = envios
-    Estadisticas.transportes = transportes
+    //Estadisticas.transportes = transportes
   }
 
   test("Tiene sentido") {
-    camiones.hola
-    assert(Estadisticas.transportes == transportes)
+    //assert(Estadisticas.transportes == transportes)
   }
 
   test("Filtro sucursales por camiones"){
-    Estadisticas.sucursales.transportes.hola
+    assert(transportes.filtroPorTipo(Camion()) == Seq(camion, camionBis))
       //filtroPorCaracteristica(Urgente)
   }
 

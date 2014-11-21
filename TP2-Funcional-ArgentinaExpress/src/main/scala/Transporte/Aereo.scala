@@ -20,11 +20,9 @@ case class Avion(override val caracteristicas: Seq[Caracteristica]) extends Tran
     super.subtotal * coefImpuesto
   }
   
-  def valorBonusVolumen: Double = {
-    3 //TODO quizás sea mejor crear un val
-  }
+  def valorBonusVolumen: Double = 3 //TODO quizás sea mejor crear un val
 
-   val porcImpuesto = 1.1
+   val porcImpuesto = 0.1
 
   def coefImpuesto: Double = {
     if (origen.pais != sucursalDestino.pais) 1 + porcImpuesto

@@ -2,6 +2,7 @@ package ArgentinaExpress.Sucursal
 
 import ArgentinaExpress.Envio.Envios._
 import ArgentinaExpress.Transporte.Transportes._
+import ArgentinaExpress.Estadisticas.EstadisticasPack._
 
 /**
  * Created by maximilianofelice on 05/11/14.
@@ -32,6 +33,15 @@ class Sucursal (
   def despachar(trans: Transporte) = {
     trans.salirDe(this)
   }
+
+  //ESTADÍSTICAS
+
+  def viajesTotales = Estadisticas.viajes
+
+  def viajesSalientes = viajesTotales.filter(_.origen == this)
+
+  def viajesEntrantes = viajesTotales.filter(_.destino == this)
+
 }
 
 //trait CalculadorDistancia {

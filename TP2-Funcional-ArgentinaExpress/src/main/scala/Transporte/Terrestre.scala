@@ -43,8 +43,8 @@ case class Camion(override val caracteristicas: Seq[Caracteristica] = Nil) exten
   
   def extraSustanciasUrgentes = {
     if (caracteristicas.contains(SustanciasPeligrosas) & caracteristicas.contains(Urgente)){//TODO POR FAVOR MARTÍN, RECORDAR SOS AYUDANTE DE PARADIGMAS
-      (volumenEnvios compose enviosUrgentes)(envios) / capacidad * 3 //TODO Revisar si se banca la composición y demás
-    } else 0
+      (volumenEnvios compose enviosUrgentes)(envios.toSeq) / capacidad * 3 //TODO Revisar si se banca la composición y demás
+    } else 0.0
   }
   
   val enviosUrgentes: Seq[Envio] => Seq[Envio] = {

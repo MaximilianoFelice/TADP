@@ -2,7 +2,12 @@ package ArgentinaExpress.Transporte
 
 import ArgentinaExpress.Caracteristica.Caracteristicas._
 import ArgentinaExpress.Envio.Envios._
+import ArgentinaExpress.Estadisticas.EstadisticasPack._
 import ArgentinaExpress.Sucursal.{CasaCentral, Sucursal}
+import Extra.Extra
+import Viaje.Viaje
+import com.github.nscala_time.time.Imports._
+
 
 /**
  * Created by maximilianofelice on 05/11/14.
@@ -14,9 +19,10 @@ package object Transportes{
                             val costoBase: Double,
                             val velocidadPromedio: Int,
                             val caracteristicas: Seq[Caracteristica]){
-    //TODO Extras(Seguimiento GPS y/o Video)
 
-    var origen: Sucursal = CasaCentral() //Sucursal por defecto es CasaCentral
+    var origen: Sucursal = CasaCentral()
+
+    var extras: Set[Extra] = Set()
 
     var envios: Set[Envio] = Set()
 
@@ -34,7 +40,6 @@ package object Transportes{
 
     def agregarCaracteristica (c:Caracteristica): Transporte
 
-
     def destino(e: Envio): Sucursal = {
       if (envios.isEmpty) e.destino
       else sucursalDestino
@@ -44,14 +49,21 @@ package object Transportes{
       envios.head.destino
     }
 
-    def sucursales: Set[Sucursal] = Set(sucursalDestino, origen)
-
     def salirDe (sucursal: Sucursal) = {
       if (puedeSalir){
         origen = sucursal
         origen.disminuirStock(envios)
         sucursalDestino.enViaje(envios)
+
+        Estadisticas.addViaje(Viaje(this, origen, envios.toSeq, tiempo, beneficio, gananciaBruta, costo, DateTime.now))
+
+        llegar
       }
+    }
+
+    def llegar = {
+      sucursalDestino.recibirEnvios(envios)
+      envios = Set()
     }
 
     def puedeSalir = {
@@ -90,10 +102,7 @@ package object Transportes{
       case _ => 137
     }
     
-    def costoExtras: Double = {
-      //TODO extras.map(_.costoPorKilometro).sum
-      0
-    }
+    def costoExtras: Double = extras.map(_.costoPorKilometro).sum
     
     def beneficio: Double = {
       envios.map(_.precio).sum
@@ -114,6 +123,8 @@ package object Transportes{
     def gananciaReal: Double = { //Es un extra, no se pide realmente
       beneficio - costo
     }
+
+    def tiempo: Int = (distanciaEntreSucursales / velocidadPromedio).toInt //Redondeo a lo loco
   }
 
   val insertarCaracteristica: (Transporte, Caracteristica) => Option[Transporte] = {
@@ -138,5 +149,5 @@ package object Transportes{
   val distanciaTerrestreEntre: (Sucursal, Sucursal) => Double = {case _ => 3}
   val distanciaAereaEntre: (Sucursal, Sucursal) => Double = {case _ => 5}
   val cantidadPeajesEntre: (Sucursal, Sucursal) => Int = {case _ => 1}
-  
+
 }

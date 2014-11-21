@@ -9,7 +9,7 @@ import ArgentinaExpress.Sucursal.Sucursal
  */
 import org.scalatest.FunSuite
 
-class SetSuite extends FunSuite {
+class Creacion_Envios extends FunSuite {
 
 
   test("it's true") {
