@@ -20,13 +20,20 @@ case class Avion(override val caracteristicas: Seq[Caracteristica]) extends Tran
     super.subtotal * coefImpuesto
   }
   
-  def valorBonusVolumen: Double = 3 //TODO quizás sea mejor crear un val
+  val valorBonusVolumen: Double = 3
 
    val porcImpuesto = 0.1
 
   def coefImpuesto: Double = {
     if (origen.pais != sucursalDestino.pais) 1 + porcImpuesto
     else 1
+  }
+  
+  def bonusPorCasaCentral: Double = {
+    (sucursalDestino, DateTime.now.day) match {
+      case (CasaCentral(), dia) if dia > 20 => 0.8 //Pasado el día 20
+      case _ => 1.0
+    }
   }
 
 }

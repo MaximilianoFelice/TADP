@@ -3,6 +3,7 @@ package ArgentinaExpress.Transporte
 import ArgentinaExpress.Envio.Envios.Envio
 import ArgentinaExpress.Transporte.Transportes._
 import ArgentinaExpress.Caracteristica.Caracteristicas._
+import com.github.nscala_time.time.Imports._
 
 /**
  * Created by maximilianofelice on 05/11/14.
@@ -60,6 +61,12 @@ case class Camion(override val caracteristicas: Seq[Caracteristica] = Nil) exten
     1 + porcentajeVolumenOcupado
   }
   
+  def bonusPorCasaCentral: Double = {
+    (sucursalDestino, DateTime.now.day) match {
+      case (CasaCentral(), dia) if dia >= 23 => 1.02 //Última semana del mes
+      case _ => 1.0
+    }
+  }
 }
 
 case class Furgoneta(override val caracteristicas: Seq[Caracteristica] = Nil) extends Terrestre(capacidad=9, costoBase=40, costoPeaje=6, velocidadPromedio=80, caracteristicas){
@@ -74,4 +81,7 @@ case class Furgoneta(override val caracteristicas: Seq[Caracteristica] = Nil) ex
     else 1
   }
   
+  def bonusPorCasaCentral: Double = {
+    1.0
+  }
 }

@@ -88,8 +88,22 @@ package object Transportes{
       else 1
     }
     
+    def bonusPorCasaCentral: Double
+    
     def subtotal: Double = {
-      costoEnvios + costoDistancia
+      costoEnvios + costoDistancia + costoEnviosComplejos
+    }
+    
+    def costoEnviosComplejos: Double = {
+      envios match {
+        case envs if envs.
+        exists(e => e.caracteristicas.contains(SustanciasPeligrosas))
+        => 600.0
+        case envs if envs.
+        exists(e => e.caracteristicas.contains(ConAnimales))
+        => 200.0
+        case _ => 0.0
+      }
     }
     
     def costoDistancia: Double = {
@@ -113,7 +127,7 @@ package object Transportes{
     }
     
     def costo: Double = { //Costo definitivo
-      subtotal * bonusVolumen
+      subtotal * bonusVolumen * bonusPorCasaCentral
     }
     
     def gananciaBruta: Double = {
