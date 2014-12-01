@@ -1,6 +1,7 @@
 package ArgentinaExpress.Transporte
 
 import ArgentinaExpress.Envio.Envios.Envio
+import ArgentinaExpress.Sucursal.CasaCentral
 import ArgentinaExpress.Transporte.Transportes._
 import ArgentinaExpress.Caracteristica.Caracteristicas._
 import com.github.nscala_time.time.Imports._
@@ -62,8 +63,8 @@ case class Camion(override val caracteristicas: Seq[Caracteristica] = Nil) exten
   }
   
   def bonusPorCasaCentral: Double = {
-    (sucursalDestino, DateTime.now.day) match {
-      case (CasaCentral(), dia) if dia >= 23 => 1.02 //Última semana del mes
+    (sucursalDestino, DateTime.now.getDayOfMonth) match {
+      case (CasaCentral(_), dia) if dia >= 23 => 1.02 //Última semana del mes
       case _ => 1.0
     }
   }

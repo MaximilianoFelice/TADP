@@ -1,6 +1,8 @@
 package ArgentinaExpress.Transporte.Transportes
 
 import ArgentinaExpress.Caracteristica.Caracteristicas._
+import ArgentinaExpress.Sucursal.CasaCentral
+import org.joda.time.DateTime
 
 /**
  * Created by maximilianofelice on 05/11/14.
@@ -30,8 +32,8 @@ case class Avion(override val caracteristicas: Seq[Caracteristica]) extends Tran
   }
   
   def bonusPorCasaCentral: Double = {
-    (sucursalDestino, DateTime.now.day) match {
-      case (CasaCentral(), dia) if dia > 20 => 0.8 //Pasado el día 20
+    (sucursalDestino, DateTime.now.getDayOfMonth) match {
+      case (CasaCentral(_), dia) if dia > 20 => 0.8 //Pasado el día 20
       case _ => 1.0
     }
   }
